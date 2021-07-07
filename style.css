@@ -1,3 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-image: radial-gradient(#ff0, #660);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  text-align: center;
+}
+
+#start-screen,
+#question-screen,
+#end-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  background-color: #660;
+  color: #ffe;
+  padding: 2rem;
+  box-shadow: 1px 1px 5px #ff0;
+  border: 1px solid #ff0;
+  border-radius: 10px;
+}
+
+#question-screen {
+  display: none;
+}
+
+#answers {
+  margin: 10px 0;
+  text-align: left;
+}
+
+.answer {
+  border: 1px solid #110;
+  padding: 5px;
+  margin: 0;
+}
+
+.answer:hover {
+  background-color: #ff0;
+  color: #110;
+}
+
+#end-screen {
+  display: none;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #ff0;
+  background-color: #110;
+  padding: 10px;
+  box-shadow: 1px 1px 10px #110;
+  cursor: pointer;
+  border: 2px solid #110;
+  border-radius: 3px;
+  margin: 5px 5px 15px 5px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background-color: #ff0;
+  color: #110;
+  border: 2px solid #ff0;
+  box-shadow: 1px 1px 6px #ff0;
+}
+
+.btn:active {
+  background-color: #ff0;
+  color: #110;
+  border: 2px solid #ff0;
+  box-shadow: 1px 1px 2px #ff0;
+  transform: translate(2px, 2px);
+}
+
 #footer {
   position: absolute;
   margin-left: auto;
@@ -6,7 +85,7 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  background-color: black;
-  color: white;
+  background-color: #110;
+  color: #ffe;
   font-size: 0.5rem;
 }
