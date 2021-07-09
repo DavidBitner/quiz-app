@@ -18,7 +18,15 @@ const correct_result = document.querySelector("#correct-result");
 const wrong_result = document.querySelector("#wrong-result");
 const quiz_result = document.querySelector("#quiz-result");
 
+let cur_question = 0;
+
+// Copyright year
+const year = document.querySelector("#year");
+const today = new Date();
+year.innerHTML = today.getFullYear();
+
 // Questions
+let random_answers = [];
 const questions = [
   {
     q_title: "Area 51 is located in which US state?",
@@ -81,7 +89,80 @@ const questions = [
   },
 ];
 
-// Copyright year
-const year = document.querySelector("#year");
-const today = new Date();
-year.innerHTML = today.getFullYear();
+// Shuffle array function
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
+// Populate random answers
+function populate_random_answers() {
+  random_answers = [];
+  for (const dict of questions) {
+    let a = [dict.correct_answer, ...dict.incorrect_answers];
+    shuffle(a);
+    random_answers.push(a);
+  }
+}
+
+// Change question function
+function change_question(c_quest) {
+  question_title.innerHTML = questions[c_quest].q_title;
+  let iterator = 0;
+  for (const answer of answers) {
+    answer.innerHTML = random_answers[c_quest][iterator];
+    iterator++;
+  }
+}
+
+// Events
+start_btn.addEventListener("click", function () {
+  start_screen.style.display = "none";
+  question_screen.style.display = "inline";
+  prev_btn.style.pointerEvents = "none";
+  populate_random_answers();
+  change_question(cur_question);
+});
+
+next_btn.addEventListener("click", function () {
+  cur_question++;
+  if (cur_question == questions.length) {
+    cur_question = 0;
+    question_screen.style.display = "none";
+    end_screen.style.display = "inline";
+    prev_btn.style.pointerEvents = "none";
+  } else {
+    change_question(cur_question);
+    prev_btn.style.pointerEvents = "auto";
+  }
+});
+
+prev_btn.addEventListener("click", function () {
+  cur_question--;
+  if (cur_question == 0) {
+    change_question(cur_question);
+    prev_btn.style.pointerEvents = "none";
+  } else {
+    change_question(cur_question);
+  }
+});
+
+restart_btn.addEventListener("click", function () {
+  end_screen.style.display = "none";
+  start_screen.style.display = "inline";
+});
