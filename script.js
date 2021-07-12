@@ -7,18 +7,20 @@ const end_screen = document.querySelector("#end-screen");
 
 const start_btn = document.querySelector("#btn-start");
 const next_btn = document.querySelector("#btn-next");
-const prev_btn = document.querySelector("#btn-prev");
 const restart_btn = document.querySelector("#btn-restart");
 
 const question_title = document.querySelector("#question-title");
 const answers = document.getElementsByClassName("answer");
+const radio_btns = document.querySelectorAll(`input[name="radio"]`);
 
-const end_title = document.querySelector("#end-title");
 const correct_result = document.querySelector("#correct-result");
 const wrong_result = document.querySelector("#wrong-result");
 const quiz_result = document.querySelector("#quiz-result");
 
 let cur_question = 0;
+
+let correct = 0;
+let wrong = 0;
 
 // Copyright year
 const year = document.querySelector("#year");
@@ -128,41 +130,69 @@ function change_question(c_quest) {
     answer.innerHTML = random_answers[c_quest][iterator];
     iterator++;
   }
+  next_btn.style.pointerEvents = "none";
+}
+
+// Check right answer
+function check_right_answer() {
+  let selected_answer;
+  for (const radio_btn of radio_btns) {
+    if (radio_btn.checked) {
+      const label_selected = document.querySelector(
+        `label[for="${radio_btn.id}"]`
+      );
+      selected_answer = label_selected.textContent;
+      radio_btn.checked = false;
+    }
+  }
+  if (selected_answer == questions[cur_question].correct_answer) {
+    correct++;
+  } else {
+    wrong++;
+  }
 }
 
 // Events
+// Start quiz
 start_btn.addEventListener("click", function () {
   start_screen.style.display = "none";
   question_screen.style.display = "inline";
-  prev_btn.style.pointerEvents = "none";
   populate_random_answers();
   change_question(cur_question);
 });
 
+// Next/finish btn
 next_btn.addEventListener("click", function () {
+  check_right_answer();
   cur_question++;
   if (cur_question == questions.length) {
     cur_question = 0;
     question_screen.style.display = "none";
     end_screen.style.display = "inline";
-    prev_btn.style.pointerEvents = "none";
+    correct_result.innerHTML = `${correct} right answers`;
+    wrong_result.innerHTML = `${wrong} wrong answers`;
+    quiz_result.innerHTML = correct > wrong ? "CONGRATULATIONS" : "TRY AGAIN";
   } else {
     change_question(cur_question);
-    prev_btn.style.pointerEvents = "auto";
+    if (cur_question == questions.length - 1) {
+      next_btn.innerHTML = "FINISH";
+    }
   }
 });
 
-prev_btn.addEventListener("click", function () {
-  cur_question--;
-  if (cur_question == 0) {
-    change_question(cur_question);
-    prev_btn.style.pointerEvents = "none";
-  } else {
-    change_question(cur_question);
-  }
-});
+// Event to enable next button after a radio button is selected
+for (const radio_btn of radio_btns) {
+  radio_btn.addEventListener("click", function () {
+    next_btn.style.pointerEvents = "auto";
+  });
+}
 
+
+// Restart quiz
 restart_btn.addEventListener("click", function () {
   end_screen.style.display = "none";
   start_screen.style.display = "inline";
+  next_btn.innerHTML = "NEXT";
+  correct = 0;
+  wrong = 0;
 });
