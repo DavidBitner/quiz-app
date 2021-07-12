@@ -27,12 +27,22 @@ body {
   display: none;
 }
 
+input {
+  display: none;
+}
+
+input:checked + label {
+  background-color: #ff0;
+  color: #110;
+}
+
 #answers {
   margin: 10px 0;
   text-align: left;
 }
 
 .answer {
+  display: block;
   border: 1px solid #110;
   padding: 5px;
   margin: 0;
