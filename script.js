@@ -155,8 +155,10 @@ function check_right_answer() {
 // Events
 // Start quiz
 start_btn.addEventListener("click", function () {
-  start_screen.style.display = "none";
-  question_screen.style.display = "inline";
+  start_screen.style.animation = "opacity_to_zero 2s forwards";
+  start_screen.style.zIndex = "0";
+  question_screen.style.zIndex = "1";
+  question_screen.style.animation = "opacity_to_hundred 2s forwards";
   populate_random_answers();
   change_question(cur_question);
 });
@@ -167,8 +169,10 @@ next_btn.addEventListener("click", function () {
   cur_question++;
   if (cur_question == questions.length) {
     cur_question = 0;
-    question_screen.style.display = "none";
-    end_screen.style.display = "inline";
+    question_screen.style.zIndex = "0";
+    question_screen.style.animation = "opacity_to_zero 2s forwards";
+    end_screen.style.zIndex = "1";
+    end_screen.style.animation = "opacity_to_hundred 2s forwards";
     correct_result.innerHTML = `${correct} right answers`;
     wrong_result.innerHTML = `${wrong} wrong answers`;
     quiz_result.innerHTML = correct > wrong ? "CONGRATULATIONS" : "TRY AGAIN";
@@ -187,11 +191,12 @@ for (const radio_btn of radio_btns) {
   });
 }
 
-
 // Restart quiz
 restart_btn.addEventListener("click", function () {
-  end_screen.style.display = "none";
-  start_screen.style.display = "inline";
+  end_screen.style.zIndex = "0";
+  end_screen.style.animation = "opacity_to_zero 2s forwards";
+  start_screen.style.zIndex = "1";
+  start_screen.style.animation = "opacity_to_hundred 2s forwards";
   next_btn.innerHTML = "NEXT";
   correct = 0;
   wrong = 0;
