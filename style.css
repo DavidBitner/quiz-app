@@ -23,8 +23,20 @@ body {
   border-radius: 10px;
 }
 
+#start-screen {
+  z-index: 1;
+}
+
 #question-screen {
-  display: none;
+  display: inline;
+  opacity: 0%;
+  z-index: 0;
+}
+
+#end-screen {
+  display: inline;
+  opacity: 0%;
+  z-index: 0;
 }
 
 input {
@@ -51,10 +63,6 @@ input:checked + label {
 .answer:hover {
   background-color: #ff0;
   color: #110;
-}
-
-#end-screen {
-  display: none;
 }
 
 .btn {
@@ -98,4 +106,22 @@ input:checked + label {
   background-color: #110;
   color: #ffe;
   font-size: 0.5rem;
+}
+
+@keyframes opacity_to_zero {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0%;
+  }
+}
+
+@keyframes opacity_to_hundred {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
 }
