@@ -93,26 +93,26 @@ const questions = [
 
 // Shuffle array function
 function shuffle(array) {
-  let currentIndex = array.length,
-    randomIndex;
+  let current_index = array.length,
+    random_index;
 
   // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+  while (0 !== current_index) {
     // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    random_index = Math.floor(Math.random() * current_index);
+    current_index--;
 
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
+    [array[current_index], array[random_index]] = [
+      array[random_index],
+      array[current_index],
     ];
   }
 
   return array;
 }
 
-// Populate random answers
+// Function to change answers order
 function populate_random_answers() {
   random_answers = [];
   for (const dict of questions) {
@@ -176,6 +176,15 @@ next_btn.addEventListener("click", function () {
     correct_result.innerHTML = `${correct} right answers`;
     wrong_result.innerHTML = `${wrong} wrong answers`;
     quiz_result.innerHTML = correct > wrong ? "CONGRATULATIONS" : "TRY AGAIN";
+    if (correct > wrong) {
+      quiz_result.innerHTML = "CONGRATULATIONS :D";
+      end_screen.style.boxShadow = "1px 1px 10px green";
+      end_screen.style.border = "2px solid green";
+    } else {
+      quiz_result.innerHTML = "TRY AGAIN :(";
+      end_screen.style.boxShadow = "1px 1px 10px red";
+      end_screen.style.border = "2px solid red";
+    }
   } else {
     change_question(cur_question);
     if (cur_question == questions.length - 1) {
