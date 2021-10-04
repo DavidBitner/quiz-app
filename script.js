@@ -28,68 +28,26 @@ const today = new Date();
 year.innerHTML = today.getFullYear();
 
 // Questions
-let random_answers = [];
-const questions = [
-  {
-    q_title: "Area 51 is located in which US state?",
-    correct_answer: "Nevada",
-    incorrect_answers: ["Arizona", "New Mexico", "Utah"],
-  },
-  {
-    q_title: "Which sign of the zodiac is represented by the Crab?",
-    correct_answer: "Cancer",
-    incorrect_answers: ["Libra", "Virgo", "Sagittarius"],
-  },
-  {
-    q_title: "Which American president appears on a one dollar bill?",
-    correct_answer: "George Washington",
-    incorrect_answers: [
-      "Thomas Jefferson",
-      "Abraham Lincoln",
-      "Benjamin Franklin",
-    ],
-  },
-  {
-    q_title: "How many colors are there in a rainbow?",
-    correct_answer: "7",
-    incorrect_answers: ["6", "8", "9"],
-  },
-  {
-    q_title: "What is the name of Poland in Polish?",
-    correct_answer: "Polska",
-    incorrect_answers: ["Pupcia", "Polszka", "Poland"],
-  },
-  {
-    q_title: "What do the letters of the fast food chain KFC stand for?",
-    correct_answer: "Kentucky Fried Chicken",
-    incorrect_answers: [
-      "Kentucky Fresh Cheese",
-      "Kibbled Freaky Cow",
-      "Kiwi Food Cut",
-    ],
-  },
-  {
-    q_title: "How many dogs years are in 1 human year?",
-    correct_answer: "7",
-    incorrect_answers: ["4", "5", "6"],
-  },
-  {
-    q_title:
-      "The drug cartel run by Pablo Escobar originated in which South American city?",
-    correct_answer: "Medellin",
-    incorrect_answers: ["Bogota", "Quito", "Cali"],
-  },
-  {
-    q_title: "How many people have stood on the moon?",
-    correct_answer: "12",
-    incorrect_answers: ["8", "10", "14"],
-  },
-  {
-    q_title: "How many km does Earth travel in a day?",
-    correct_answer: "2600000 km",
-    incorrect_answers: ["26 km", "260 km", "260000 km"],
-  },
-];
+let random_answers;
+let questions;
+
+async function generateQuestions() {
+  try {
+    const response = await fetch(
+      `https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple`
+    );
+
+    if (!response.ok) {
+      throw new Error("Problem getting questions data");
+    }
+
+    const data = await response.json();
+
+    return data.results;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // Shuffle array function
 function shuffle(array) {
@@ -124,7 +82,7 @@ function populate_random_answers() {
 
 // Change question function
 function change_question(c_quest) {
-  question_title.innerHTML = questions[c_quest].q_title;
+  question_title.innerHTML = questions[c_quest].question;
   let iterator = 0;
   for (const answer of answers) {
     answer.innerHTML = random_answers[c_quest][iterator];
@@ -154,11 +112,12 @@ function check_right_answer() {
 
 // Events
 // Start quiz
-start_btn.addEventListener("click", function () {
+start_btn.addEventListener("click", async function () {
   start_screen.style.animation = "opacity_to_zero 2s forwards";
   start_screen.style.zIndex = "0";
   question_screen.style.zIndex = "1";
   question_screen.style.animation = "opacity_to_hundred 2s forwards";
+  questions = await generateQuestions();
   populate_random_answers();
   change_question(cur_question);
 });
