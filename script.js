@@ -113,11 +113,11 @@ function check_right_answer() {
 // Events
 // Start quiz
 start_btn.addEventListener("click", async function () {
+  questions = await generateQuestions();
   start_screen.style.animation = "opacity_to_zero 2s forwards";
   start_screen.style.zIndex = "0";
   question_screen.style.zIndex = "1";
   question_screen.style.animation = "opacity_to_hundred 2s forwards";
-  questions = await generateQuestions();
   populate_random_answers();
   change_question(cur_question);
 });
